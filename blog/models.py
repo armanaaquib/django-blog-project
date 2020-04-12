@@ -33,5 +33,5 @@ class Comment(models.Model):
         self.approved_comment = True
         self.save()
 
-    def _str_(self):
+    def __str__(self):
         return self.text
