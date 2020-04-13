@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from unittest.mock import patch
 import pytz
-from .models import Post, Comment
+from blog.models import Post, Comment
 
 test_datetime = timezone.datetime(2020, 4, 13, 7, 38, 20, 127325, tzinfo=pytz.UTC)
 path_now = patch.object(timezone, 'now', return_value=test_datetime)
@@ -11,11 +11,11 @@ path_now = patch.object(timezone, 'now', return_value=test_datetime)
 
 
 class TestCommentModel(TestCase):
+
     @classmethod
     def setUpTestData(cls):
         test_user = User.objects.create_user(username='john', password='jhn123')
         test_user.save()
-
         test_post = Post.objects.create(
             author=test_user,
             title='Test Post',
@@ -31,6 +31,10 @@ class TestCommentModel(TestCase):
             created_date=timezone.now()
         )
         test_comment.save()
+
+    def test_max_length_of_author(self):
+        comment = Comment.objects.get(id=1)
+        self.assertEqual(comment._meta.get_field('author').max_length, 200)
 
     def test_str(self):
         """
@@ -50,8 +54,7 @@ class TestCommentModel(TestCase):
 
 
 class TestPostModel(TestCase):
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         test_user = User.objects.create_user(username='john', password='jhn123')
         test_user.save()
 
@@ -80,6 +83,10 @@ class TestPostModel(TestCase):
             approved_comment=False
         )
         test_comment.save()
+
+    def test_max_length_of_title(self):
+        post = Post.objects.get(id=1)
+        self.assertEqual(post._meta.get_field('title').max_length, 200)
 
     def test_str(self):
         """
