@@ -1,7 +1,12 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.utils import  timezone
+from django.utils import timezone
+from unittest.mock import patch
+import pytz
 from .models import Post, Comment
+
+test_datetime = timezone.datetime(2020, 4, 13, 7, 38, 20, 127325, tzinfo=pytz.UTC)
+path_now = patch.object(timezone, 'now', return_value=test_datetime)
 # Create your tests here.
 
 
@@ -94,3 +99,10 @@ class TestPostModel(TestCase):
 
         approved_comments = Comment.objects.filter(post=post, approved_comment=True)
         self.assertSetEqual(post.approved_comments(), approved_comments)
+
+    def test_publish(self):
+        mock_now = path_now.start()
+        post = Post.objects.get(title='Test Post')
+        post.publish()
+        self.assertEqual(post.published_date, timezone.datetime(2020, 4, 13, 7, 38, 20, 127325, tzinfo=pytz.UTC))
+        mock_now.stop()
