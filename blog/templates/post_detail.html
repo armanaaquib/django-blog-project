@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block links %}
+    <link href="{% static 'css/post_detail.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="post">
+        <h1 class="title">{{ post.title }}</h1>
+        <p class="date">{{ post.created_date }}
+        <p class="text">{{ post.text|linebreaksbr }}</p>
+        <hr>
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <p>{{ comment.created_date }}</p>
+                <p class="text">{{ comment.text|linebreaksbr }}</p>
+                <p>Posted by: <strong>{{ comment.author }}</strong></p>
+            </div>
+        {% empty %}
+            <p>No comments posted.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

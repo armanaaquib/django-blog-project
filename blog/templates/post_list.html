@@ -10,7 +10,7 @@
 {% block body %}
     {% for post in posts %}
         <div class="post">
-            <h1><a href="">{{ post.title }}</a></h1>
+            <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <p>Published On: {{ post.created_date }}</p>
             <a href="">Comments: {{ post.approved_comments.count }}</a>
         </div>

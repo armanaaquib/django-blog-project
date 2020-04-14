@@ -1,0 +1,28 @@
+.post {
+  margin: 1vh;
+  margin-left: 5vw;
+  margin-right: 30vw;
+}
+
+.post .title {
+  font-family: 'Russo One', sans-serif;
+  font-size: 2.5em;
+  text-align: center;
+}
+
+.post .text {
+  font-family: 'Montserrat';
+  font-size: 1.5em;
+}
+
+.post .date {
+  text-align: center;
+}
+
+.comment {
+  margin-bottom: 5vh;
+}
+
+.comment .text {
+  font-size: 1.2em;
+}
