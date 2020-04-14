@@ -12,7 +12,7 @@
         <div class="post">
             <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <p>Published On: {{ post.created_date }}</p>
-            <a href="">Comments: {{ post.approved_comments.count }}</a>
+            <a href="{% url 'blog:post-detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
         </div>
     {% endfor %}
 {% endblock %}

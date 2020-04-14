@@ -14,11 +14,13 @@
         <p class="text">{{ post.text|linebreaksbr }}</p>
         <hr>
         {% for comment in post.comments.all %}
-            <div class="comment">
-                <p>{{ comment.created_date }}</p>
-                <p class="text">{{ comment.text|linebreaksbr }}</p>
-                <p>Posted by: <strong>{{ comment.author }}</strong></p>
-            </div>
+            {% if comment.approved_comment %}
+                <div class="comment">
+                    <p>{{ comment.created_date }}</p>
+                    <p class="text">{{ comment.text|linebreaksbr }}</p>
+                    <p>Posted by: <strong>{{ comment.author }}</strong></p>
+                </div>
+            {% endif %}
         {% empty %}
             <p>No comments posted.</p>
         {% endfor %}
