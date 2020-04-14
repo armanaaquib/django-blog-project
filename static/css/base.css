@@ -1,0 +1,26 @@
+.nav-bar {
+  font-family: 'Russo One', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(207, 202, 202);
+  height: 12vh;
+  align-items: center;
+}
+
+.nav-item {
+  color: #5c5656;
+  text-decoration: none;
+  padding: 15px 10px;
+  text-align: center;
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.nav-item:hover {
+  color: #050505;
+}
+
+.nav-home {
+  color: #464141;
+  font-size: 1.5em;
+}
