@@ -24,3 +24,8 @@
   color: #464141;
   font-size: 1.5em;
 }
+
+.container {
+  margin-left: 0;
+  margin-right: 0;
+}
