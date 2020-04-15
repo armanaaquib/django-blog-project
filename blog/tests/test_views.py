@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from blog.models import Post, Comment
 from blog.views import PostListView
 
@@ -16,6 +17,8 @@ class TestPostListView(TestCase):
             author=test_user,
             title="Test Post", 
             text="this is a test post",
+            created_date=timezone.now(),
+            published_date=timezone.now(),
         )
         test_post.save()
 
@@ -23,6 +26,16 @@ class TestPostListView(TestCase):
             author=test_user2,
             title="Test Post2", 
             text="this is a test post 2",
+            created_date=timezone.now(),
+            published_date=timezone.now(),
+        )
+        test_post.save()
+
+        test_post = Post.objects.create(
+            author=test_user2,
+            title="Test Post2", 
+            text="this is a test post 2",
+            created_date=timezone.now(),
         )
         test_post.save()
 
