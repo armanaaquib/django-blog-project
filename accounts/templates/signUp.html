@@ -3,7 +3,7 @@
 {% block title %}signUp{% endblock %}
 
 {% block body %}
-    <form method="POST">
+    <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="signUp">
