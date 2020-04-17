@@ -14,8 +14,13 @@
 
   <body>
     <nav class="nav-bar">
-      <div class="left-nav-bar">
+      <div>
         <a class="nav-item nav-home" href="{% url 'blog:post-list' %}">Public Blog</a>
+      </div>
+      <div>
+        <a class="user-icon" href="{% url 'accounts:profile' %}">
+          <img class="user-icon-img" src="{% static 'png/user-icon.png' %}">
+        </a>
       </div>
     </nav>
 
