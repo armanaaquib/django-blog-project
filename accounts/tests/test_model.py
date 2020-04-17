@@ -18,3 +18,8 @@ class TestUserProfile(TestCase):
         user_profile = UserProfile.objects.get(username='khan')
         
         self.assertEqual(user_profile.__str__(), '@khan')
+
+    def test_full_name(self):
+        user_profile = UserProfile.objects.get(username='khan')
+
+        self.assertEqual(user_profile.full_name, 'John Ram')
