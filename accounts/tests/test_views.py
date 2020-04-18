@@ -141,3 +141,36 @@ class TestUserProfileDetailView(TestCase):
         response = self.client.get(reverse('accounts:profile'), follow=True)
 
         self.assertEqual(response.context['user_profile'].full_name, 'John Ram')
+
+class TestLogoutView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        UserProfile.objects.create_user(
+            first_name='John',
+            last_name ='Ram',
+            username='khan',
+            password='jrk1',
+            portfolio_site='https://www.google.com',
+        )
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jrk1')
+        response = self.client.get('/accounts/logout/')
+        
+        self.assertRedirects(response, reverse('blog:post-list'))
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jrk1')
+        response = self.client.get(reverse('accounts:logout'))
+
+        self.assertRedirects(response, reverse('blog:post-list'))
+
+    def test_is_logout(self):
+        self.client.login(username='khan', password='jrk1')
+        response = self.client.get(reverse('accounts:logout'), follow=True)
+        self.assertFalse(response.context['user'].is_authenticated)
+    
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('accounts:logout'))
+
+        self.assertRedirects(response, '/accounts/login/?next=/accounts/logout/')

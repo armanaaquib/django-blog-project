@@ -21,6 +21,12 @@
         <a class="user-icon" href="{% url 'accounts:profile' %}">
           <img class="user-icon-img" src="{% static 'png/user-icon.png' %}">
         </a>
+        {% if user.is_authenticated %}
+          <span>{{ user.username }}</span>  
+          <a class="user-icon" href="{% url 'accounts:logout' %}">
+            <img class="user-icon-img" src="{% static 'png/logout-icon.png' %}">
+          </a>
+        {% endif %}
       </div>
     </nav>
 

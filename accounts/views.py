@@ -1,8 +1,10 @@
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
+from django.views.generic.base import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from .forms import SignUpForm, LoginForm
 from .models import UserProfile
@@ -39,3 +41,8 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return get_object_or_404(UserProfile, username=self.request.user.username)
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse_lazy('blog:post-list'))
