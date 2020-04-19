@@ -32,3 +32,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class PostDraftListView(LoginRequiredMixin, ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'post_draft_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(published_date__isnull=True).order_by('-created_date')

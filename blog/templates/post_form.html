@@ -3,6 +3,7 @@
 {% block title %}New Blog{% endblock %}
 
 {% block body %}
+    <h2>Create a New Blog</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}

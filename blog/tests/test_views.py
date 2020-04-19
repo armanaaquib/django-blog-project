@@ -125,3 +125,34 @@ class PostCreateView(TestCase):
         self.client.post(reverse('blog:new'), data=form_data)
 
         self.assertTrue(Post.objects.get(title='Test Post'))
+
+class TestPostDraftListView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        User.objects.create_user(
+            username='khan',
+            password='jk-r',
+        )
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/draft/')
+        
+        self.assertRedirects(response, '/accounts/login/?next=/draft/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get('/draft/')
+        
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:draft'))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:draft'))
+
+        self.assertTemplateUsed(response,'post_draft_list.html')

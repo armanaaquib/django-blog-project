@@ -20,7 +20,7 @@
       <div>
         {% if user.is_authenticated %}
           <a class="nav-item" href="{% url 'blog:new' %}">New Blog</a>
-          <a class="nav-item" href="">Draft</a>
+          <a class="nav-item" href="{% url 'blog:draft' %}">Draft</a>
           <a class="nav-item" href="">Blogs</a>
           <a class="nav-item user-info" href="{% url 'accounts:profile' %}">{{ user.username }}</a>
           <a class="nav-item" href="{% url 'accounts:logout' %}">logout</a> 

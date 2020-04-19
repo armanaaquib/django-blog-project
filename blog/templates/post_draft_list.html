@@ -11,8 +11,8 @@
     {% for post in posts %}
         <div class="post">
             <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>Published On: {{ post.published_date }}</p>
-            <a href="{% url 'blog:post-detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+            <p>Created On: {{ post.created_date }}</p>
+            <input type="button" value="Publish">
         </div>
     {% endfor %}
 {% endblock %}
