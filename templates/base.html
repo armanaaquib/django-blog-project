@@ -18,14 +18,14 @@
         <a class="nav-item nav-home" href="{% url 'blog:post-list' %}">Public Blog</a>
       </div>
       <div>
-        <a class="user-icon" href="{% url 'accounts:profile' %}">
-          <img class="user-icon-img" src="{% static 'png/user-icon.png' %}">
-        </a>
         {% if user.is_authenticated %}
-          <span>{{ user.username }}</span>  
-          <a class="user-icon" href="{% url 'accounts:logout' %}">
-            <img class="user-icon-img" src="{% static 'png/logout-icon.png' %}">
-          </a>
+          <a class="nav-item" href="">New Blog</a>
+          <a class="nav-item" href="">Draft</a>
+          <a class="nav-item" href="">Blogs</a>
+          <a class="nav-item user-info" href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+          <a class="nav-item" href="{% url 'accounts:logout' %}">logout</a> 
+        {% else %}
+          <a class="nav-item" href="{% url 'accounts:profile' %}">Login</a>
         {% endif %}
       </div>
     </nav>

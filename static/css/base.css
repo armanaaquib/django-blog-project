@@ -33,3 +33,8 @@ body {
   margin-left: 0;
   margin-right: 0;
 }
+
+.user-info {
+  color: #464141;
+  font-size: 1.3em;
+}
