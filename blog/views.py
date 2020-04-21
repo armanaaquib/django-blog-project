@@ -40,3 +40,14 @@ class PostDraftListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Post.objects.filter(published_date__isnull=True).order_by('-created_date')
+
+class UserPostListView(LoginRequiredMixin, ListView):
+    model = Post
+    context_object_name = 'posts'
+    template_name = 'post_list.html'
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            author=self.request.user, 
+            published_date__isnull=False
+        ).order_by('-published_date')

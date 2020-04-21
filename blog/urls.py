@@ -1,5 +1,7 @@
 from django.urls import re_path, path
-from .views import PostListView, PostDetailView, PostCreateView, PostDraftListView
+from .views import (PostListView, PostDetailView, 
+                    PostCreateView, PostDraftListView,
+                    UserPostListView, )
 
 app_name = 'blog'
 
@@ -8,4 +10,5 @@ urlpatterns = [
     re_path(r'^post/(?P<pk>\d+)', PostDetailView.as_view(), name='post-detail'),
     re_path(r'^new/', PostCreateView.as_view(), name='new'),
     re_path(r'^draft/', PostDraftListView.as_view(), name='draft'),
+    re_path(r'^blogs/', UserPostListView.as_view(), name='user-posts')
 ]

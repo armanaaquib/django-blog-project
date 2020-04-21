@@ -156,3 +156,54 @@ class TestPostDraftListView(TestCase):
         response = self.client.get(reverse('blog:draft'))
 
         self.assertTemplateUsed(response,'post_draft_list.html')
+
+class TestUserPostListView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='khan', password='jk-r')
+        test_user2 = User.objects.create_user(username='ram', password='rs-l')
+
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post',
+            text='This is a test post',
+        )
+        test_post.publish()
+        test_post.save()
+
+        test_post = Post.objects.create(
+            author=test_user2,
+            title='Test Post 2',
+            text='This is a test post 2',
+        )
+        test_post.publish()
+        test_post.save()
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/blogs/')
+        
+        self.assertRedirects(response, '/accounts/login/?next=/blogs/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get('/blogs/')
+        
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:user-posts'))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:user-posts'))
+
+        self.assertTemplateUsed(response,'post_list.html')
+
+    def test_correct_context(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:user-posts'), follow=True)
+
+        self.assertEqual(len(response.context['posts']), 1)

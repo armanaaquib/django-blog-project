@@ -12,6 +12,9 @@
         <div class="post">
             <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <p>Published On: {{ post.published_date }}</p>
+            {% if post.author != user %}
+                <p>By: {{ post.author.username }}</p>
+            {% endif %}
             <a href="{% url 'blog:post-detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
         </div>
     {% endfor %}
