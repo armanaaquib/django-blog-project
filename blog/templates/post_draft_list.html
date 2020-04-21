@@ -12,7 +12,9 @@
         <div class="post">
             <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <p>Created On: {{ post.created_date }}</p>
-            <input type="button" value="Publish">
+            <a href="{% url 'blog:publish' pk=post.pk %}"><input type="button" value="Publish">
         </div>
+    {% empty %}
+        <p>Nothing to Publish</p>
     {% endfor %}
 {% endblock %}

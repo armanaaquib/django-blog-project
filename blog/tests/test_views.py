@@ -207,3 +207,45 @@ class TestUserPostListView(TestCase):
         response = self.client.get(reverse('blog:user-posts'), follow=True)
 
         self.assertEqual(len(response.context['posts']), 1)
+
+class TestPostPublishView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='khan', password='jk-r')
+
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post',
+            text='This is a test post',
+        )
+        test_post.save()
+
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post 2',
+            text='This is a test post 2',
+        )
+        test_post.save()
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/publish/1')
+        
+        self.assertRedirects(response, '/accounts/login/?next=/publish/1')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get('/publish/1')
+        
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:publish', kwargs={'pk': 1}))
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_redirects_to_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:publish', kwargs={'pk': 1}))
+
+        self.assertRedirects(response, reverse('blog:post-list'))

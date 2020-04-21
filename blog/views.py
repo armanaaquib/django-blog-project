@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -51,3 +52,10 @@ class UserPostListView(LoginRequiredMixin, ListView):
             author=self.request.user, 
             published_date__isnull=False
         ).order_by('-published_date')
+
+class PostPublishView(LoginRequiredMixin, View):
+    def get(self, request, **kwargs):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        post.publish()
+
+        return redirect('blog:post-list')
