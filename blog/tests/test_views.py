@@ -309,3 +309,62 @@ class TestPostEditView(TestCase):
         post.refresh_from_db()
 
         # self.assertEqual(post.title, 'Test Post edited')
+
+class TestPostDeleteView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='khan', password='jk-r')
+
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post',
+            text='This is a test post',
+        )
+        test_post.save()
+
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post 2',
+            text='This is a test post 2',
+        )
+        test_post.save()
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/delete/1')
+        
+        self.assertRedirects(response, '/accounts/login/?next=/delete/1')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get('/delete/1')
+        
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:delete', kwargs={'pk': 1}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:delete', kwargs={'pk': 1}))
+
+        self.assertTemplateUsed(response,'post_confirm_delete.html')
+
+    def test_correct_context(self):
+        self.client.login(username='khan', password='jk-r')
+
+        response = self.client.get(reverse('blog:edit', kwargs={'pk': 1}), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.context['post'].title, 'Test Post')
+
+    def test_redirects_to_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.post(reverse('blog:delete', kwargs={'pk': 1}))
+
+        self.assertEqual(response.status_code, 302)
+
+        self.assertRedirects(response, reverse('blog:user-posts'))

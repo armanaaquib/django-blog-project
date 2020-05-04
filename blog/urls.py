@@ -2,7 +2,7 @@ from django.urls import re_path, path
 from .views import (PostListView, PostDetailView, 
                     PostCreateView, PostDraftListView,
                     UserPostListView, PostPublishView,
-                    PostEditView,)
+                    PostEditView, PostDeleteView)
 
 app_name = 'blog'
 
@@ -14,4 +14,5 @@ urlpatterns = [
     re_path(r'^blogs/', UserPostListView.as_view(), name='user-posts'),
     re_path(r'^publish/(?P<pk>\d+)', PostPublishView.as_view(), name='publish'),
     re_path(r'^edit/(?P<pk>\d+)', PostEditView.as_view(), name='edit'),
+    re_path(r'^delete/(?P<pk>\d+)', PostDeleteView.as_view(), name='delete'),
 ]
