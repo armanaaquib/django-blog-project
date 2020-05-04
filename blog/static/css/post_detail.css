@@ -26,3 +26,13 @@
 .comment .text {
   font-size: 1.2em;
 }
+
+.post .author {
+  text-align: center;
+}
+
+.post-update {
+  /* background-color: red; */
+  margin: 1vh;
+  text-align: right;
+}

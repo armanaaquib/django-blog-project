@@ -122,9 +122,10 @@ class PostCreateView(TestCase):
             'title': 'Test Post',
             'text': 'test text post'
         }
-        self.client.post(reverse('blog:new'), data=form_data)
+        response = self.client.post(reverse('blog:new'), data=form_data)
+        self.assertEqual(response.status_code, 302)
 
-        self.assertTrue(Post.objects.get(title='Test Post'))
+        self.assertEqual(Post.objects.last().title, 'Test Post')
 
 class TestPostDraftListView(TestCase):
     @classmethod
@@ -249,3 +250,62 @@ class TestPostPublishView(TestCase):
         response = self.client.get(reverse('blog:publish', kwargs={'pk': 1}))
 
         self.assertRedirects(response, reverse('blog:post-list'))
+
+class TestPostEditView(TestCase):
+    def setUp(self):
+        test_user1 = User.objects.create_user(username='khan', password='jk-r')
+        
+        test_post = Post.objects.create(
+            author=test_user1,
+            title='Test Post',
+            text='This is a test post',
+        )
+        test_post.save()
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/edit/1')
+        
+        self.assertRedirects(response, '/accounts/login/?next=/edit/1')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get('/edit/1')
+        
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessable_by_name(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:edit', kwargs={'pk': 1}))
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='khan', password='jk-r')
+        response = self.client.get(reverse('blog:edit', kwargs={'pk': 1}))
+
+        self.assertTemplateUsed(response,'post_form.html')
+
+    def test_correct_context(self):
+        self.client.login(username='khan', password='jk-r')
+
+        response = self.client.get(reverse('blog:edit', kwargs={'pk': 1}), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(list(response.context['form'].fields.keys()), ['title','text'])
+
+    def test_post_edited(self):
+        post = Post.objects.get(title='Test Post')
+
+        self.client.login(username='khan', pasword='jk-r')
+
+        form_data = {
+            'title': 'Test Post edited',
+            'text': 'This is a test post',
+        }
+        response = self.client.post(reverse('blog:edit', kwargs={'pk': 1}), data=form_data)
+        self.assertEqual(response.status_code, 302)
+
+        post.refresh_from_db()
+
+        # self.assertEqual(post.title, 'Test Post edited')
