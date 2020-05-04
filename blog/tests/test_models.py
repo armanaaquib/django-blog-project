@@ -43,16 +43,6 @@ class TestCommentModel(TestCase):
         comment = Comment.objects.get(author='Ram')
         self.assertEqual(comment.__str__(), 'test comment')
 
-    def test_approve(self):
-        """
-        test if comment's approve_comment property become true
-        """
-        comment = Comment.objects.get(author='Ram')
-        self.assertFalse(comment.approved_comment)
-        comment.approve()
-        self.assertTrue(comment.approved_comment)
-
-
 class TestPostModel(TestCase):
     def setUp(self):
         test_user = User.objects.create_user(username='john', password='jhn123')
@@ -71,7 +61,6 @@ class TestPostModel(TestCase):
             author='Ram',
             text='test comment',
             created_date=timezone.now(),
-            approved_comment=False
         )
         test_comment.save()
 
@@ -80,7 +69,6 @@ class TestPostModel(TestCase):
             author='Khan',
             text='test comment 2',
             created_date=timezone.now(),
-            approved_comment=False
         )
         test_comment.save()
 
@@ -94,18 +82,6 @@ class TestPostModel(TestCase):
         """
         post = Post.objects.get(title='Test Post')
         self.assertEqual(post.__str__(), 'Test Post')
-
-    def test_approved_comments(self):
-        """
-        test if returned approved comments
-        """
-        post = Post.objects.get(title='Test Post')
-
-        comment = Comment.objects.get(author='Ram', post=post)
-        comment.approve()
-
-        approved_comments = Comment.objects.filter(post=post, approved_comment=True)
-        self.assertSetEqual(post.approved_comments(), approved_comments)
 
     def test_publish(self):
         mock_now = path_now.start()
