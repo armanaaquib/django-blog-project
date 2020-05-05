@@ -28,7 +28,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ('title', 'text')  
     template_name = 'post_form.html'
-    success_url = reverse_lazy('blog:post-list')
+    success_url = reverse_lazy('blog:draft')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -58,7 +58,7 @@ class PostPublishView(LoginRequiredMixin, View):
         post = get_object_or_404(Post, pk=self.kwargs['pk'])
         post.publish()
 
-        return redirect('blog:post-list')
+        return redirect('blog:draft')
 
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post

@@ -127,6 +127,17 @@ class PostCreateView(TestCase):
 
         self.assertEqual(Post.objects.last().title, 'Test Post')
 
+    def test_redirects_to_desired_location(self):
+        self.client.login(username='khan', password='jk-r')
+
+        form_data = {
+            'title': 'Test Post',
+            'text': 'test text post'
+        }
+        response = self.client.post(reverse('blog:new'), data=form_data)
+
+        self.assertRedirects(response, reverse('blog:draft'))
+
 class TestPostDraftListView(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -249,7 +260,7 @@ class TestPostPublishView(TestCase):
         self.client.login(username='khan', password='jk-r')
         response = self.client.get(reverse('blog:publish', kwargs={'pk': 1}))
 
-        self.assertRedirects(response, reverse('blog:post-list'))
+        self.assertRedirects(response, reverse('blog:draft'))
 
 class TestPostEditView(TestCase):
     def setUp(self):
