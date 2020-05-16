@@ -12,7 +12,7 @@ class SignUpForm(forms.ModelForm):
         model = UserProfile
         fields = (
             'first_name', 'last_name', 'username', 'password',
-            'confirm_password', 'portfolio_site', 'profile_pic',
+            'confirm_password', 'portfolio_site',
         )
         
 
