@@ -2,6 +2,18 @@
   margin: 5vh 7vw;
 }
 
-.post a {
+a {
   text-decoration: none;
+}
+
+.title {
+  color: #000000;
+}
+
+.comment {
+    color: #000000;
+}
+
+input[type="button"] {
+    cursor: pointer;
 }

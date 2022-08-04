@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title%}Public Blogs{% endblock %}
+{% block title %}Public Blogs{% endblock %}
 
 {% block links %}
-    <link href="{% static 'css/post_list.css' %}" rel="stylesheet">
-{% endblock%}
+<link href="{% static 'css/post_list.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-    {% for post in posts %}
-        <div class="post">
-            <h1><a href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>Published On: {{ post.published_date }}</p>
-            {% if post.author != user %}
-                <p>By: {{ post.author.username }}</p>
-            {% endif %}
-            <a href="{% url 'blog:post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
-        </div>
-    {% endfor %}
+{% for post in posts %}
+<div class="post">
+    <h1><a class="title" href="{% url 'blog:post-detail' pk=post.pk %}">{{ post.title }}</a></h1>
+    <p>Published On: {{ post.published_date }}</p>
+    {% if post.author != user %}
+    <p>By: {{ post.author.username }}</p>
+    {% endif %}
+    <a class="comment" href="{% url 'blog:post-detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+</div>
+{% endfor %}
 {% endblock %}

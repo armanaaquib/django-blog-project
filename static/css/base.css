@@ -38,3 +38,8 @@ body {
   color: #464141;
   font-size: 1.3em;
 }
+
+.title {
+  font-family: 'Russo One', sans-serif;
+  color: #000000;
+}

@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}New Blog{% endblock %}
 
+{% block links %}
+<link href="{% static 'css/post_form.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
+<div class="post-form">
     {% if post.pk %}
-        <h2>Edit Blog</h2>
+    <h1>Edit Blog</h1>
     {% else %}
-        <h2>Create a New Blog</h2>
+    <h1>Create a New Blog</h1>
     {% endif %}
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Save">
+        <input class="submit-button" type="submit" value="Save">
     </form>
+</div>
 {% endblock %}

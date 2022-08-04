@@ -4,37 +4,37 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block links %}
-    <link href="{% static 'css/post_detail.css' %}" rel="stylesheet">
+<link href="{% static 'css/post_detail.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
+<div class="post">
     {% if post.author == user %}
-        <div class='post-update'>
-            <a class="nav-item" href="{% url 'blog:edit' post.pk %}">Edit</a>
-            <a class="nav-item" href="{% url 'blog:delete' post.pk %}">Delete</a>
-        </div>
-    {% endif %}
-    <div class="post">
-        <h1 class="title">{{ post.title }}</h1>
-        <p class="date">{{ post.published_date }}</p>
-        {% if post.author != user %}
-            <p class="author">By: {{ post.author.username }}</p>
-        {% endif %}
-        <p class="text">{{ post.text|linebreaksbr }}</p>
-        <hr>
-        
-        {% if post.published_date %}
-            {% for comment in post.comments.all|dictsortreversed:'created_date' %}
-                <div class="comment">
-                    <p>{{ comment.created_date }}</p>
-                    <p class="text">{{ comment.text|linebreaksbr }}</p>
-                    <p>Posted by: <strong>{{ comment.author }}</strong></p>
-                </div>
-            {% empty %}
-                <p>No comments posted.</p>
-            {% endfor %}
-        {% else %}
-           <a href="{% url 'blog:publish' pk=post.pk %}"><input type="button" value="Publish">
-        {% endif %}
+    <div class='post-update'>
+        <a class="nav-item" href="{% url 'blog:edit' post.pk %}">Edit</a>
+        <a class="nav-item" href="{% url 'blog:delete' post.pk %}">Delete</a>
     </div>
+    {% endif %}
+    <h1 class="title">{{ post.title }}</h1>
+    <p class="date">{{ post.published_date }}</p>
+    {% if post.author != user %}
+    <p class="author">By: {{ post.author.username }}</p>
+    {% endif %}
+    <p class="text">{{ post.text|linebreaksbr }}</p>
+    <hr>
+
+    {% if post.published_date %}
+    {% for comment in post.comments.all|dictsortreversed:'created_date' %}
+    <div class="comment">
+        <p>{{ comment.created_date }}</p>
+        <p class="text">{{ comment.text|linebreaksbr }}</p>
+        <p>Posted by: {{ comment.author }}</p>
+    </div>
+    {% empty %}
+    <p>No comments posted.</p>
+    {% endfor %}
+    {% else %}
+    <a href="{% url 'blog:publish' pk=post.pk %}"><input type="button" value="Publish"/></a>
+    {% endif %}
+</div>
 {% endblock %}

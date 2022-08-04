@@ -1,0 +1,10 @@
+.post-confirmation-delete {
+    width: 30%;
+    margin: 32px auto;
+}
+
+input {
+    cursor: pointer;
+    width: 100px;
+    height: 28px;
+}

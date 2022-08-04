@@ -1,5 +1,6 @@
-from django.urls import re_path, path
-from .views import (PostListView, PostDetailView, 
+from django.urls import re_path
+
+from .views import (PostListView, PostDetailView,
                     PostCreateView, PostDraftListView,
                     UserPostListView, PostPublishView,
                     PostEditView, PostDeleteView)

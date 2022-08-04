@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}signUp{% endblock %}
 
+{% block links %}
+<link href="{% static 'accounts/css/base.css' %}" rel="stylesheet">
+{% endblock%}
+
 {% block body %}
-    <form enctype="multipart/form-data" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="signUp">
-    </form>
+<form enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Register">
+</form>
 {% endblock %}

@@ -1,0 +1,33 @@
+.post-form {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.submit-button {
+    cursor: pointer;
+    width: 100px;
+    height: 28px;
+    font-size: 1em;
+}
+
+input {
+    width: 80%;
+    height: 2.5em;
+    font-size: 1.5em;
+    border-radius: 4px;
+    padding-left: 8px;
+    border: 1px solid;
+}
+
+label {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+textarea {
+    width: 80%;
+    font-size: 1.5em;
+    border-radius: 4px;
+    resize: none;
+    padding: 8px;
+}
