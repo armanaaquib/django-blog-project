@@ -24,6 +24,7 @@
     <hr>
 
     {% if post.published_date %}
+    <h4>Comments:</h4>
     {% for comment in post.comments.all|dictsortreversed:'created_date' %}
     <div class="comment">
         <p>{{ comment.created_date }}</p>

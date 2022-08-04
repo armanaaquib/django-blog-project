@@ -9,6 +9,7 @@ body {
   background-color: rgb(207, 202, 202);
   height: 8vh;
   align-items: center;
+  border-radius: 4px;
 }
 
 .nav-item {
